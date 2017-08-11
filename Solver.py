@@ -1,6 +1,7 @@
 from pprint import pprint
 
 all_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+dimension = 3
 
 # Example of a sudo puzzle to be solved
 
@@ -80,8 +81,13 @@ def solve_squares(puzzle):
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
 def solve_rows(puzzle):
     # TODO: Get rid of magic nums here and better variable naming
-    for global_row in range(3):
-        for row_row in range(3):
+
+    # Iterate through each row in big square. e.g. Squares 1,2 and 3
+    for global_row in range(dimension):
+
+        # Iterate through each local row in global row.
+        # e.g. First row in sq 1,2,3
+        for local_row in range(dimension):
 
             # Set all numbers that are missing in the row to all_nums[1-9]
             missing_nums = all_nums[:]
@@ -89,26 +95,31 @@ def solve_rows(puzzle):
             # Elements that are yet to be solved
             unsolved_elems = []
 
-            # Row iteration
-            for row_sq in range(3):
-                square_num = (global_row * 3) + row_sq
+            # Iterate through each square in each local row
+            for row_sq in range(dimension):
 
-                for (elem_id, elem) in enumerate(puzzle[square_num][row_row]):
+                square_num = (global_row * dimension) + row_sq
 
+                # For each element in triplet of square on local row
+                for (elem_id, elem) in enumerate(puzzle[square_num][local_row]):
+
+                    # If not solved, add to the unsolved items list
                     if len(elem) != 1:
-                        unsolved_elems.append((square_num, row_row, elem_id))
+                        unsolved_elems.append((square_num, local_row, elem_id))
+
                     # If solved, remove from missing_nums
                     else:
                         missing_nums.remove(elem[0])
 
             # Set intersection of missing nums and unsolved element's list
             for (square_id, row_id, elem_id) in unsolved_elems:
-                puzzle[square_id][row_row][elem_id] \
+                puzzle[square_id][local_row][elem_id] \
                     = [x for x in missing_nums
-                       if x in puzzle[square_id][row_row][elem_id]]
+                       if x in puzzle[square_id][local_row][elem_id]]
 
 
 # Iterate through each col. Find missing nums. Set-Intersect with each elem
+# TODO
 
 if __name__ == '__main__':
     problem = puzzle1
