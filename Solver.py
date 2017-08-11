@@ -79,11 +79,39 @@ def solve_squares(puzzle):
 
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
 def solve_rows(puzzle):
-    pass
+    # TODO: Get rid of magic nums here and better variable naming
+    for global_row in range(3):
+        for row_row in range(3):
+
+            # Set all numbers that are missing in the row to all_nums[1-9]
+            missing_nums = all_nums[:]
+
+            # Elements that are yet to be solved
+            unsolved_elems = []
+
+            # Row iteration
+            for row_sq in range(3):
+                square_num = (global_row * 3) + row_sq
+
+                for (elem_id, elem) in enumerate(puzzle[square_num][row_row]):
+
+                    if len(elem) != 1:
+                        unsolved_elems.append((square_num, row_row, elem_id))
+                    # If solved, remove from missing_nums
+                    else:
+                        missing_nums.remove(elem[0])
+
+            # Set intersection of missing nums and unsolved element's list
+            for (square_id, row_id, elem_id) in unsolved_elems:
+                puzzle[square_id][row_row][elem_id] \
+                    = [x for x in missing_nums
+                       if x in puzzle[square_id][row_row][elem_id]]
+
 
 # Iterate through each col. Find missing nums. Set-Intersect with each elem
 
 if __name__ == '__main__':
     problem = puzzle1
     solve_squares(problem)
+    solve_rows(problem)
     pprint(problem)
