@@ -71,12 +71,12 @@ for sq in puzzle1:
 
     # Set intersection of missing nums and unsolved element's list
     for elem in unsolved_elems:
+        elem.clear()
 
         for num in missing_nums:
-            elem.remove(num)
+            elem.append(num)
 
-        # elem = [x for x in elem if x in missing_nums]
-        # elem = list(set(elem) & set(missing_nums))
+    print("Square processed")
 
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
 
