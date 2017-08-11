@@ -156,7 +156,10 @@ def solve_cols(puzzle):
 
 if __name__ == '__main__':
     problem = puzzle1
-    solve_squares(problem)
-    solve_rows(problem)
-    solve_cols(problem)
+
+    # TODO: Optimise this rather than hardcoding a number in
+    for i in range(5):
+        solve_squares(problem)
+        solve_rows(problem)
+        solve_cols(problem)
     pprint(problem)
