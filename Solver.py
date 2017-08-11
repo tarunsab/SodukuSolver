@@ -3,8 +3,7 @@ from pprint import pprint
 all_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 dimension = 3
 
-# Example of a sudo puzzle to be solved
-
+# Example of a Sudoku puzzle to be solved
 puzzle1_row1 = [[[7], [2], [3]],
                 [[6], [], []],
                 [[8], [], []]]
@@ -80,13 +79,11 @@ def solve_squares(puzzle):
 
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
 def solve_rows(puzzle):
-    # TODO: Get rid of magic nums here and better variable naming
-
     # Iterate through each row in big square. e.g. Squares 1,2 and 3
     for global_row in range(dimension):
 
         # Iterate through each local row in global row.
-        # e.g. First row in sq 1,2,3
+        # e.g. First row in sq 0, 1, 2
         for local_row in range(dimension):
 
             # Set all numbers that are missing in the row to all_nums[1-9]
@@ -119,10 +116,48 @@ def solve_rows(puzzle):
 
 
 # Iterate through each col. Find missing nums. Set-Intersect with each elem
-# TODO
+def solve_cols(puzzle):
+    for global_col in range(dimension):
+
+        # Iterate through each local col in global row.
+        # e.g. First col in sq 0, 3, 6
+        for local_col in range(dimension):
+
+            # Set all numbers that are missing in the col to all_nums[1-9]
+            missing_nums = all_nums[:]
+
+            # Elements that are yet to be solved
+            unsolved_elems = []
+
+            # Iterate through each square in each local col
+            for col_sq in range(dimension):
+
+                square_num = (col_sq * dimension) + global_col
+
+                # Iterate through each elem in each sq of local_col, global_col
+                for elem_index in range(dimension):
+                    elem = puzzle[square_num][elem_index][local_col]
+                    # print(elem)
+
+                    # If not solved, add to the unsolved items list
+                    if len(elem) != 1:
+                        unsolved_elems.append((square_num, local_col,
+                                               elem_index))
+
+                    # If solved, remove from missing_nums
+                    else:
+                        missing_nums.remove(elem[0])
+
+            # Set intersection of missing nums and unsolved element's list
+            for (square_num, local_col, elem_index) in unsolved_elems:
+                puzzle[square_num][elem_index][local_col] \
+                    = [x for x in missing_nums
+                       if x in puzzle[square_num][elem_index][local_col]]
+
 
 if __name__ == '__main__':
     problem = puzzle1
     solve_squares(problem)
     solve_rows(problem)
+    solve_cols(problem)
     pprint(problem)
