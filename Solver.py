@@ -43,22 +43,12 @@ puzzle1 = [puzzle1_row1, puzzle1_row2, puzzle1_row3,
            puzzle1_row4, puzzle1_row5, puzzle1_row6,
            puzzle1_row7, puzzle1_row8, puzzle1_row9]
 
-# Initial code for traversing
-# for sq in puzzle1:
-#     for sq_row in sq:
-#         for elem in sq_row:
-#
-#             # If it needs to be solved, add all possible numbers
-#             if not elem:
-#                 elem = all_nums
-
-# TODO:
 # Set all empty squares as all_nums
 # Iterate through each square. Find missing nums. Set-Intersect with each elem
 for sq in puzzle1:
 
     # Numbers that are missing in the 3x3 square
-    missing_nums = all_nums
+    missing_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     # Elements that are yet to be solved
     unsolved_elems = []
@@ -79,12 +69,14 @@ for sq in puzzle1:
             else:
                 missing_nums.remove(elem[0])
 
-
     # Set intersection of missing nums and unsolved element's list
     for elem in unsolved_elems:
-        elem = [x for x in elem if x in missing_nums]
 
+        for num in missing_nums:
+            elem.remove(num)
 
+        # elem = [x for x in elem if x in missing_nums]
+        # elem = list(set(elem) & set(missing_nums))
 
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
 
