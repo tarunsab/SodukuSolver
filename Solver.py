@@ -44,41 +44,46 @@ puzzle1 = [puzzle1_row1, puzzle1_row2, puzzle1_row3,
            puzzle1_row4, puzzle1_row5, puzzle1_row6,
            puzzle1_row7, puzzle1_row8, puzzle1_row9]
 
-# Set all empty squares as all_nums
+
 # Iterate through each square. Find missing nums. Set-Intersect with each elem
-for sq in puzzle1:
+def solve_squares(puzzle):
+    for sq in puzzle:
 
-    # Numbers that are missing in the 3x3 square
-    missing_nums = all_nums[:]
+        # Set all numbers that are missing in the 3x3 square to all_nums[1-9]
+        missing_nums = all_nums[:]
 
-    # Elements that are yet to be solved
-    unsolved_elems = []
+        # Elements that are yet to be solved
+        unsolved_elems = []
 
-    for row_id, sq_row in enumerate(sq):
-        for elem_id, elem in enumerate(sq_row):
+        for row_id, sq_row in enumerate(sq):
+            for elem_id, elem in enumerate(sq_row):
 
-            # If empty elem, add all possible nums as list
-            if not elem:
-                sq[row_id][elem_id] = all_nums[:]
-                unsolved_elems.append((row_id, elem_id))
+                # If empty elem, add all possible nums as list
+                if not elem:
+                    sq[row_id][elem_id] = all_nums[:]
+                    unsolved_elems.append((row_id, elem_id))
 
-            # Add unsolved elem to list
-            elif len(elem) != 1:
-                unsolved_elems.append((row_id, elem_id))
+                # Add unsolved elem to list
+                elif len(elem) != 1:
+                    unsolved_elems.append((row_id, elem_id))
 
-            # Use solved elem to calculate missing_nums
-            else:
-                missing_nums.remove(elem[0])
+                # Use solved elem to calculate missing_nums
+                else:
+                    missing_nums.remove(elem[0])
 
-    # Set intersection of missing nums and unsolved element's list
-    for (row_id, elem_id) in unsolved_elems:
-        sq[row_id][elem_id] = [x for x in missing_nums
-                               if x in sq[row_id][elem_id]]
+        # Set intersection of missing nums and unsolved element's list
+        for (row_id, elem_id) in unsolved_elems:
+            sq[row_id][elem_id] = [x for x in missing_nums
+                                   if x in sq[row_id][elem_id]]
 
-    print("Square processed")
 
 # Iterate through each row. Find missing nums. Set-Intersect with each elem
+def solve_rows(puzzle):
+    pass
 
 # Iterate through each col. Find missing nums. Set-Intersect with each elem
 
-pprint(puzzle1)
+if __name__ == '__main__':
+    problem = puzzle1
+    solve_squares(problem)
+    pprint(problem)
