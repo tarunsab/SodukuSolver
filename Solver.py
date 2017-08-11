@@ -3,6 +3,7 @@ from pprint import pprint
 all_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 # Example of a sudo puzzle to be solved
+
 puzzle1_row1 = [[[7], [2], [3]],
                 [[6], [], []],
                 [[8], [], []]]
@@ -48,33 +49,31 @@ puzzle1 = [puzzle1_row1, puzzle1_row2, puzzle1_row3,
 for sq in puzzle1:
 
     # Numbers that are missing in the 3x3 square
-    missing_nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    missing_nums = all_nums[:]
 
     # Elements that are yet to be solved
     unsolved_elems = []
 
-    for sq_row in sq:
-        for elem in sq_row:
+    for row_id, sq_row in enumerate(sq):
+        for elem_id, elem in enumerate(sq_row):
 
             # If empty elem, add all possible nums as list
             if not elem:
-                elem = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                unsolved_elems.append(elem)
+                sq[row_id][elem_id] = all_nums[:]
+                unsolved_elems.append((row_id, elem_id))
 
             # Add unsolved elem to list
             elif len(elem) != 1:
-                unsolved_elems.append(elem)
+                unsolved_elems.append((row_id, elem_id))
 
             # Use solved elem to calculate missing_nums
             else:
                 missing_nums.remove(elem[0])
 
     # Set intersection of missing nums and unsolved element's list
-    for elem in unsolved_elems:
-        elem.clear()
-
-        for num in missing_nums:
-            elem.append(num)
+    for (row_id, elem_id) in unsolved_elems:
+        sq[row_id][elem_id] = [x for x in missing_nums
+                               if x in sq[row_id][elem_id]]
 
     print("Square processed")
 
