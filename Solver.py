@@ -102,14 +102,14 @@ def solve_rows(puzzle):
 
                     # If not solved, add to the unsolved items list
                     if len(elem) != 1:
-                        unsolved_elems.append((square_num, local_row, elem_id))
+                        unsolved_elems.append((square_num, elem_id))
 
                     # If solved, remove from missing_nums
                     else:
                         missing_nums.remove(elem[0])
 
             # Set intersection of missing nums and unsolved element's list
-            for (square_id, row_id, elem_id) in unsolved_elems:
+            for (square_id, elem_id) in unsolved_elems:
                 puzzle[square_id][local_row][elem_id] \
                     = [x for x in missing_nums
                        if x in puzzle[square_id][local_row][elem_id]]
@@ -134,22 +134,21 @@ def solve_cols(puzzle):
 
                 square_num = (col_sq * dimension) + global_col
 
-                # Iterate through each elem in each sq of local_col, global_col
+                # Iterate through each elem (on y-axis) in each sq
                 for elem_index in range(dimension):
                     elem = puzzle[square_num][elem_index][local_col]
                     # print(elem)
 
                     # If not solved, add to the unsolved items list
                     if len(elem) != 1:
-                        unsolved_elems.append((square_num, local_col,
-                                               elem_index))
+                        unsolved_elems.append((square_num, elem_index))
 
                     # If solved, remove from missing_nums
                     else:
                         missing_nums.remove(elem[0])
 
             # Set intersection of missing nums and unsolved element's list
-            for (square_num, local_col, elem_index) in unsolved_elems:
+            for (square_num, elem_index) in unsolved_elems:
                 puzzle[square_num][elem_index][local_col] \
                     = [x for x in missing_nums
                        if x in puzzle[square_num][elem_index][local_col]]
